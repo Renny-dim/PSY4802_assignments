@@ -1,0 +1,101 @@
+---
+title: "Foundations in R Assignment pt 2"
+author: "Renny Dimitrov"
+date: "2026-09-24"
+output: html_document
+---
+
+For your second R Assignment, complete the questions below. Remember, weekly assignments are graded based on attempts and accuracy, so it's ok if you don't get everything immediately. Please submit your answers by 1) updating this file in your GitHub repository and 2) uploading a .html file of the assignment to this repository. Please submit a link to the repository on Canvas. 
+
+# Set up
+1. Load the tidyverse library.
+```{r}
+library(tidyverse)
+```
+
+2. Load the billboard data. 
+```{r}
+library(tidyverse)
+data(billboard)
+```
+
+3. Describe the dataset. 
+```{r}
+summary(billboard)
+```
+
+4. Print the column names from this dataset. 
+```{r}
+colnames(billboard)
+```
+
+5. Print the first 5 entries in the dataset. 
+```{r}
+head(billboard, n=5, na.rm = TRUE)
+```
+
+# Practice
+1. Create a subset of data that has Jay-Z as the only artist. How many songs are in it?
+```{r}
+library(tidyverse)
+data(billboard)
+jayZ <- subset(billboard, billboard$artist=="Jay-Z")
+nrow(jayZ)
+```
+
+2. In the original dataset, use filter to find information about the song "All the small things." What was the highest position (i.e. lowest number) this song reached on the billboard 100? 
+```{r}
+library(dplyr)
+library(tidyr)
+
+oneSong <- billboard |> filter(track=="All The Small Things") |> select(starts_with("wk"))
+min(oneSong, na.rm = TRUE)
+
+##"select(starts_with("wk"))" specifies the columns that start with "wk" for the filtering of the "min" function --> categorizes them all together
+```
+
+3. Create a subset of data for songs Tim McGraw sang. Summarize the data for wk 1.
+```{r}
+timSongs <- subset(billboard, billboard$artist=="McGraw, Tim")
+summary(timSongs$wk1, na.rm==TRUE)
+```
+
+4. Create a function that can be used to determine if Britney Spears sang the song. 
+```{r}
+britneySong <- function(song){
+  ifelse(billboard$artist == "Spears, Britney", "YES", "NO")
+}
+```
+
+5. Test your function on the billboard data. Save the results to a new column called "wasItBritney"
+```{r}
+data(billboard) 
+billboard$wasItBritney <- NA
+
+billboard$wasItBritney <- britneySong(billboard$artist)
+print(billboard$wasItBritney)
+```
+
+6. Use a for loop to determine if a song placed 50 or below or placed above 50 during the first week. 
+```{r}
+billboard$placedBelow50 <- NA
+
+for(i in 1:length(billboard$wk1)){
+  billboard$placedBelow50[i] <- billboard$wk1[i]<=50
+}
+
+print(billboard$placedBelow50)
+
+```
+
+7. Use an if else statement to determine the same information as you obtained with the for loop. 
+```{r}
+billboard$placedBelow50pt2 <- NA
+billboard$placedBelow50pt2 <- ifelse(billboard$wk1<=50, "below", "above")
+
+print(billboard$placedBelow50pt2)
+```
+
+8. Compare your results in 6 and 7. 
+```{r}
+##A for loop in question 6 labels each row as "true" if it falls below 50 placement or "false" if it places above the 50 placement on the billboard for that specific track of the week. In comparison, an "if else statement" focuses on rather labeling each track that doesn't fall below 50 on the billboard as "above" (or whatever specified within the code). For the "if else" statement, below needs to be specified first rather than above if the results are to be accurate (to label each track that falls above 50 as "above" and below 50 as "below"). 
