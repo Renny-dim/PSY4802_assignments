@@ -18,6 +18,7 @@ library(tidyverse)
 library(tidyverse)
 data(billboard)
 ```
+aw comment: don't need to load tidyverse a second time 
 
 3. Describe the dataset. 
 ```{r}
@@ -33,6 +34,7 @@ colnames(billboard)
 ```{r}
 head(billboard, n=5, na.rm = TRUE)
 ```
+AW: na.rm shouldn't be necessary 
 
 # Practice
 1. Create a subset of data that has Jay-Z as the only artist. How many songs are in it?
@@ -42,6 +44,7 @@ data(billboard)
 jayZ <- subset(billboard, billboard$artist=="Jay-Z")
 nrow(jayZ)
 ```
+aw: don't need to load tidyverse or dataset again 
 
 2. In the original dataset, use filter to find information about the song "All the small things." What was the highest position (i.e. lowest number) this song reached on the billboard 100? 
 ```{r}
@@ -53,6 +56,7 @@ min(oneSong, na.rm = TRUE)
 
 ##"select(starts_with("wk"))" specifies the columns that start with "wk" for the filtering of the "min" function --> categorizes them all together
 ```
+aw comment: dplyr and tidyr are in tidyverse. 
 
 3. Create a subset of data for songs Tim McGraw sang. Summarize the data for wk 1.
 ```{r}
@@ -66,6 +70,10 @@ britneySong <- function(song){
   ifelse(billboard$artist == "Spears, Britney", "YES", "NO")
 }
 ```
+aw comment: this isn't really a function. a function can be applied to other datasets
+britneySong<- function(artist){
+artist=="Spears, Britney"
+}
 
 5. Test your function on the billboard data. Save the results to a new column called "wasItBritney"
 ```{r}
@@ -75,6 +83,7 @@ billboard$wasItBritney <- NA
 billboard$wasItBritney <- britneySong(billboard$artist)
 print(billboard$wasItBritney)
 ```
+print isn't necessary in r 
 
 6. Use a for loop to determine if a song placed 50 or below or placed above 50 during the first week. 
 ```{r}
@@ -99,3 +108,5 @@ print(billboard$placedBelow50pt2)
 8. Compare your results in 6 and 7. 
 ```{r}
 ##A for loop in question 6 labels each row as "true" if it falls below 50 placement or "false" if it places above the 50 placement on the billboard for that specific track of the week. In comparison, an "if else statement" focuses on rather labeling each track that doesn't fall below 50 on the billboard as "above" (or whatever specified within the code). For the "if else" statement, below needs to be specified first rather than above if the results are to be accurate (to label each track that falls above 50 as "above" and below 50 as "below"). 
+
+AW comment: don't need code chunk, but if using, make sure to end with ```. results should be the same across the 2
