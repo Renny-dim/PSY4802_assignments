@@ -1,0 +1,71 @@
+---
+title: "ggplot pt 2 assignment"
+author: "Renny Dimitrov"
+date: "2026-11-03"
+output: html_document
+---
+
+1. Open the starwars dataset (located in tidyverse)
+```{r}
+library(tidyverse)
+data("starwars")
+```
+
+2. Create a scatter plot of character's height and mass. 
+```{r}
+ggplot(starwars, aes(height, mass))+geom_point()
+```
+
+2a. Change the color and shape of the points in your scatter plot.
+```{r}
+ggplot(starwars, aes(height, mass))+geom_point(color="purple", shape = 4)+theme_minimal()
+```
+
+3. Add Homeworld as a third variable to your scatterplot. 
+```{r}
+ggplot(starwars, aes(height, mass, color=homeworld))+geom_point()+theme_minimal()
+```
+
+3a. What do you notice about the graph? (e.g. describe what you see)
+
+I notice that that there is now a legend to the right side of the graph, which encompasses each homeworld that the character can fall into (specific point on the height, mass graph). Each color for the legend represents a different homeworld, translating onto the graph itself.
+
+4. Make a boxplot of height. 
+```{r}
+ggplot(starwars, aes(height))+geom_boxplot()
+```
+
+5. Make a boxplot of height for each species present in the data.
+```{r}
+ggplot(starwars, aes(height, species))+geom_boxplot()
+```
+
+5a. change the appearance of your graph in at least 3 ways.
+```{r}
+ggplot(starwars, aes(height,species))+geom_boxplot(fill="light blue")+labs(title= "Starwars Character Heights per Species", x = "Height in CM", y= "Species Type")+theme_minimal()
+```
+
+```{r}
+ggplot(starwars, aes(height,species))+geom_boxplot(fill="light pink")+labs(title= "Starwars Character Heights per Species",x = "Height in CM",y= "Species Type")+theme_minimal()+geom_jitter(aes(color=species), width=0.15, size=2) +theme(legend.position = "none", axis.text.y =element_text(size = 8, angle=10, hjust=1, margin = margin(r = 5)), plot.title=element_text(family="serif", face="bold"), axis.title.y = element_text(family="serif",face="bold"), axis.title.x =element_text(family="serif", face="bold"))
+```
+
+```{r}
+library(viridis)
+ggplot(starwars, aes(species, height, fill = species))+geom_boxplot()+labs(title= "Starwars Character Heights per Species", x = "Species Type", y= "Height in CM")+scale_fill_viridis_d(option="viridis")+theme_minimal()+theme(axis.text.x =element_text(angle=50, hjust = 1), legend.position = "none", plot.title=element_text(family="serif", face="bold"), axis.title.y = element_text(family="serif",face="bold"), axis.title.x =element_text(family="serif", face="bold"))
+```
+
+6. Using any variables in the starwars dataset, create a graph that uses a color palette from viridis.
+```{r}
+ggplot(starwars, aes(x=height, fill=homeworld))+geom_histogram()+labs(title = "Height of Characters from Each Homeworld", x = "Height (cm) of Characters", y= "# of Characters")+scale_fill_viridis(discrete=TRUE, option="magma", name="Homeworlds")+theme_minimal()
+```
+
+7.Using any variables in the starwars dataset, create a graph that uses a color palette from RColorBrewer.
+```{r}
+library(RColorBrewer)
+ggplot(starwars, aes(x=height, fill=gender))+geom_histogram()+labs(title = "Height of Characters from Each Homeworld", x = "Height (cm) of Characters", y= "# of Characters")+scale_fill_brewer(palette= "Purples", na.value= "purple")+theme_minimal()
+```
+
+8. Using any variables in the starwars dataset, create a graph using facet_wrap
+```{r}
+ggplot(starwars, aes(x=height, fill=gender))+geom_histogram()+labs(title = "Height of Characters from Each Homeworld", x = "Height (cm) of Characters", y= "# of Characters")+facet_wrap(~gender)
+```
