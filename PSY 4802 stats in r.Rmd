@@ -1,0 +1,65 @@
+---
+title: "Statistics in R Assignment"
+author: "Renny Dimitrov"
+date: "2026-11-05"
+output: html_document
+---
+
+1. Open the diamonds dataset from ggplot2.  
+```{r}
+library(ggplot2)
+data(diamonds)
+```
+
+2. Run a correlation between the x and y variables. What do you notice? 
+```{r}
+cor(diamonds$x, diamonds$y)
+##I notice the correlation is very strong at .97 (almost 1.0).
+```
+
+3. What is the correlation between price and carat?
+```{r}
+cor(diamonds$price, diamonds$carat)
+```
+
+4. Create a linear model predicting price from table. What is the coefficient for table? 
+```{r}
+lm1 <- lm(price~ table, data=diamonds)
+summary(lm1)
+##The coefficient for table is 226.984.
+```
+
+5. Run a regression and an Anova predicting price from color. What do you notice about the
+two types of output? 
+```{r}
+lm2 <- lm(price~ color, data=diamonds)
+aov2 <- aov(price~ color, data=diamonds)
+
+summary(lm2)
+summary(aov2)
+
+##I notice that the linear regression model has more coefficients in its output in comparison to the ANOVA summary, where the regression output separets speciifc pattern of color & price interaction in the coefficients than just listing "color" with its degress of freedom (combing into a single test). -- different level of detail between the two tests.  
+```
+
+6. Run a t test to determine if "D" color diamonds are more expensive than "E" color diamonds. 
+```{r}
+t.test(diamonds$price[diamonds$color=="D"], diamonds$price[diamonds$color=="E"], alternative="greater", var.equal=TRUE)
+```
+
+7. Open the warpbreaks dataset. What test would you use to determine the correlation between wool type and breaks?
+```{r}
+data("warpbreaks")
+##2-sided & 2-sample t-test, as it is comparing the breaks between the two wool type sample populations "A" and "B".
+t.test(breaks ~ wool, data = warpbreaks)
+```
+
+8. What is the correlation between wool type and breaks? 
+```{r}
+cor(as.numeric(warpbreaks$wool), warpbreaks$breaks) ##had to write numeric for the wooltypes as they were categorical variables, where now theyll be numbered instead to fit a correlation test.
+```
+
+9. A student has a 35 question, multiple choice test. Each question has 4 choices. If they answered 17 questions correctly, did their responses differ from chance?  
+```{r}
+binom.test(17, 35, p=.25)
+##Yes their responses differed from chance, as they had a 48.57% probablitity of success than the 25% probability of success.
+```
